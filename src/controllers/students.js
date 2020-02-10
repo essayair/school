@@ -10,8 +10,9 @@ function getStudent(req, res) {
 
 }
 
-function getAllStudents(req, res) {
-  Student.find();
+async function getAllStudents(req, res) {
+  const students = await Student.find();
+  return res.json(students);
 }
 
 function updateStudent(req, res) {
