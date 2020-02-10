@@ -1,12 +1,19 @@
 const Student = require('../models/student');
 
 async function addStudent(req, res) {
-  const student = new Student({firstName: 'a', lastName: 'b', email: '123'});
+  const { firstName, lastName, email } = req.body;
+  const student = new Student({firstName, lastName, email});
   await student.save();
   return res.json(student);
 }
 
-function getStudent(req, res) {
+async function getStudent(req, res) {
+  const { id } = req.params;
+  const student = await Student.findById(id);
+  if (!student) {
+    return res.status(404).json("no data")
+  };
+  return res.json(student)
 
 }
 
@@ -15,12 +22,35 @@ async function getAllStudents(req, res) {
   return res.json(students);
 }
 
-function updateStudent(req, res) {
+async function updateStudent(req, res) {
+  const { id } = req.params;
+  const { firstName, lastName, email} = req.body;
+  const student = await Student.findByIdAndUpdate(
+    id,
+    {
+      firstName,
+      lastName,
+      email
+    },{
+      new: true
+    });
+  if (!student) {
+    return res.status(404).json("no data")
+  };
+  return res.json(student)
 
 }
 
-function deleteStudent(req, res) {
+async function deleteStudent(req, res) {
+  const { id } = req.params;
+  const student = await Student.findByIdAndDelete(id);
+    if (!student) {
+      return res.status(404).json("no data")
+    };
+    return res.json(student)
 
+
+  
 }
 
 module.exports = {

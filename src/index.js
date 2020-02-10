@@ -6,6 +6,7 @@ const routes = require('./routes');
 const { connectToDB } = require('./utils/db');
 
 const app = express();
+app.use(express.json());
 
 app.use('/api', routes);
 

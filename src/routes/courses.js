@@ -6,8 +6,8 @@ const { addCourse, deleteCourse, getAllCourses, getCourse, updateCourse} = requi
 router.get('/', getAllCourses);
 router.get('/:id', getCourse);
 router.post('/', addCourse);
-router.put('/', updateCourse);
-router.delete('/', deleteCourse)
+router.put('/:id', updateCourse);
+router.delete('/:id', deleteCourse)
 
 
 
