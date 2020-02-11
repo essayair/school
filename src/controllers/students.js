@@ -3,18 +3,20 @@ const Student = require('../models/student');
 async function addStudent(req, res) {
   const { firstName, lastName, email } = req.body;
   const student = new Student({firstName, lastName, email});
-  await student.save();
+  await student.save().exec();
   return res.json(student);
 }
 
 async function getStudent(req, res) {
   const { id } = req.params;
-  const student = await Student.findById(id);
+  Student.findById(id).exec((err, result) => {
+    if (err) return res.status(400).send('error');
+    return res.json(result);
+  });
   if (!student) {
     return res.status(404).json("no data")
   };
-  return res.json(student)
-
+  return res.json(student);
 }
 
 async function getAllStudents(req, res) {
@@ -24,30 +26,25 @@ async function getAllStudents(req, res) {
 
 async function updateStudent(req, res) {
   const { id } = req.params;
-  const { firstName, lastName, email} = req.body;
-  const student = await Student.findByIdAndUpdate(
+  const { firstName, lastName, email } = req.body;
+  const newStudent = await Student.findByIdAndUpdate(
     id,
-    {
-      firstName,
-      lastName,
-      email
-    },{
-      new: true
-    });
+    { irstName, lastName, email},
+    { new: true });
   if (!student) {
     return res.status(404).json("no data")
   };
-  return res.json(student)
+  return res.json(newStudent)
 
 }
 
 async function deleteStudent(req, res) {
   const { id } = req.params;
-  const student = await Student.findByIdAndDelete(id);
-    if (!student) {
+  const deletedStudent = await Student.findByIdAndDelete(id);
+    if (!deletedStudent) {
       return res.status(404).json("no data")
     };
-    return res.json(student)
+    return res.json(deletedStudent)
 
 
   
