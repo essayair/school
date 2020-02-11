@@ -18,8 +18,16 @@ const schema = new mongoose.Schema({
             validator: email => !Joi.string().email().validate(email).error,
             msg: "Invalid email format"
         }
-    }
-},{
+    },
+    courses: [
+        {
+            type: String,
+            ref: 'Course'
+        }
+    ]
+},
+
+{
     toJSON: {
         virtuals:true,
     }

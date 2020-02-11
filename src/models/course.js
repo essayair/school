@@ -14,6 +14,13 @@ const schema = new mongoose.Schema({
         type: String,
         default: "this is a description"
     },
+    students: [
+        { 
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Student'//refer to the student's model name
+        },
+
+    ],
     __v: {
         type: Number,
         select: false
